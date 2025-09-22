@@ -1,0 +1,47 @@
+<h1>Notifications Page</h1>
+
+<body>
+    <!-- User Filter Form -->
+	{% if missing_user %}
+		<div class="user-filter-info">
+			A member with the name "{{ missing_user }}" does not exist. </div>
+	{% elif selected_user %}
+		<h1>Notifications for member {{ selected_user.username }} are as follows: </h1>
+	{% else %}
+		<h1>All Notifications</h1>
+	{% endif %}
+
+    <!-- Notification List -->
+	{% if notifications %} <!-- Start of Notification List -->
+
+    <!-- Loop through notifications -->
+		{% for notification in notifications %}
+			<div class="notification">
+
+                <!-- Notification Message -->
+				<div class="notification-message">
+					<strong>{{ forloop.counter }}.</strong> {{ notification.message }} </div>
+                
+                <!-- Notification Users (only if no specific user is selected) -->
+				{% if not selected_user %}
+				<div class="notification-users">
+					<strong>Sent to:</strong>
+					{% for user in notification.users.all %}
+                        
+                        <!-- Highlight the selected user if applicable -->
+						<span class="user-tag {% if selected_user and user.username == selected_user.username %}selected-user{% endif %}">{{ user.username }}</span>
+					{% empty %}
+						<span>No users assigned</span>
+					{% endfor %}
+				</div>
+				{% endif %}
+			</div>
+		{% endfor %}
+	{% else %}
+
+        <!-- No Notifications Found Message -->
+		{% if selected_user %}
+			<p>No notifications found for member {{ selected_user.username }}.</p>
+		{% endif %}
+	{% endif %} <!-- End of Notification List -->
+</body>

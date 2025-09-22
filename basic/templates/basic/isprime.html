@@ -1,0 +1,13 @@
+<h1>
+    Prime Number Checker
+</h1>
+
+ {{ input }} is {{ output|yesno:" ,not " }}a prime number.
+
+{% if time_computed %}
+
+<p>
+    Computed at: {{ time_computed }}
+</p>
+
+{% endif %}
